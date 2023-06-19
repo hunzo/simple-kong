@@ -7,3 +7,7 @@ docker compose up -d
 ```
 TAG=3.3.0-ubuntu
 ```
+## Change mode konga
+```
+NODE_ENV=production
+```

@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 services:
   kong-db:
     image: postgres:9.6-alpine
@@ -7,15 +7,15 @@ services:
     env_file:
       - .env
     healthcheck:
-      test: [ 'CMD-SHELL', 'pg_isready -U kong' ]
+      test: ["CMD-SHELL", "pg_isready -U kong"]
       interval: 5s
       timeout: 2s
       retries: 15
     networks:
-      - proxy-network
+      - kong-network
 
   kong-migration:
-    image: 'kong:${TAG-latest}'
+    image: "kong/kong-gateway:${TAG-latest}"
     command: kong migrations bootstrap
     depends_on:
       - kong-db
@@ -23,19 +23,19 @@ services:
       - .env
     restart: on-failure
     networks:
-      - proxy-network
+      - kong-network
 
   konga-migration:
     image: pantsel/konga
-    command: '-c prepare -a postgres -u postgresql://kong:kong@kong-db:5432/konga_db'
+    command: "-c prepare -a postgres -u postgresql://kong:kong@kong-db:5432/konga_db"
     restart: on-failure
     depends_on:
       - kong-db
     networks:
-      - proxy-network
+      - kong-network
 
   kong:
-    image: 'kong:${TAG-latest}'
+    image: "kong/kong-gateway:${TAG-latest}"
     container_name: kong
     restart: always
     env_file:
@@ -46,12 +46,12 @@ services:
       - 80:8000
       - 443:8443
     healthcheck:
-      test: [ 'CMD', 'kong', 'health' ]
+      test: ["CMD", "kong", "health"]
       interval: 5s
       timeout: 2s
       retries: 15
     networks:
-      - proxy-network
+      - kong-network
 
   konga:
     image: pantsel/konga
@@ -62,7 +62,7 @@ services:
     ports:
       - 1337:1337
     networks:
-      - proxy-network
+      - kong-network
 
 networks:
-  proxy-network:
+  kong-network:

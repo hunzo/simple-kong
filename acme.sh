@@ -8,7 +8,7 @@ curl http://localhost:8001/services \
   -d url=http://127.0.0.1:65535
 
 curl http://localhost:8001/services/acme-dummy/routes \
-  -d name=acme-dumy \
+  -d name=acme-dummy \
   -d tags=lets-encrypt \
   -d protocols=http \
   -d paths[]=/.well-known/acme-challenge

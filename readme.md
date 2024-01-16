@@ -14,6 +14,14 @@ TAG=3.5.0-ubuntu
 
 ## Change mode konga
 
+- production
+
 ```
 NODE_ENV=production
+```
+
+- development
+
+```
+NODE_ENV=development
 ```
